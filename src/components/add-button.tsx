@@ -1,10 +1,7 @@
 import Button from "@mui/material/Button";
 import AddTaskIcon from '@mui/icons-material/AddTask';
-import React, { type MouseEventHandler } from "react";
+import React from "react";
 
-interface AddTaskButtonProps {
-    onClick: MouseEventHandler<HTMLButtonElement>;
-}
 
 const customButtonStyles = {
     alignItems: "center",
@@ -46,14 +43,13 @@ const customButtonStyles = {
     }
 };
 
-const AddTaskButton: React.FC<AddTaskButtonProps> = ({ onClick }) => {
+const AddTaskButton: React.FC = () => {
     return (
         <Button
-            onClick={onClick}
+            type="submit"
             startIcon={<AddTaskIcon />}
             sx={customButtonStyles}
             variant="text"
-            disableRipple
         >
             Add Task
         </Button>

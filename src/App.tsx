@@ -1,6 +1,6 @@
 
 import './App.css'
-import AddTaskButton from './components/add-button'
+import { TaskInputCard } from './components/input-card'
 
 function App() {
 
@@ -8,8 +8,7 @@ function App() {
     <>
       <h1>To Do List</h1>
       <div className="card">
-        <input></input>
-        <AddTaskButton onClick={()=>{}}/>
+        <TaskInputCard/>
       </div>
     </>
   )
