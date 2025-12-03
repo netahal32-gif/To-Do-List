@@ -1,28 +1,25 @@
-
 import { ThemeProvider } from '@mui/material/styles'
+import { ToastContainer, Zoom } from 'react-toastify'
 import { TaskInputCard } from './components/input-card'
 import customTheme from './components/theme'
-import { ToastContainer, Zoom } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { TaskGrid } from './components/task-grid';
-import { Box, CssBaseline, Typography } from '@mui/material';
-import theme from './components/theme';
-import { useAtom } from 'jotai';
-import { tasksAtom } from './atoms/task-atoms';
-
+import 'react-toastify/dist/ReactToastify.css'
+import { Box, CssBaseline, Typography } from '@mui/material'
+import { useAtom } from 'jotai'
+import { tasksAtom } from './atoms/task-atoms'
+import { TaskGrid } from './components/task-grid'
+import theme from './components/theme'
 
 function App() {
   const [tasks, _] = useAtom(tasksAtom)
   return (
     <ThemeProvider theme={customTheme}>
       <CssBaseline />
-      <Box sx={{ minHeight: '100vh', background: theme.palette.background.default, p: 2 }}>
-
-        <Box sx={{ mb: 4, textAlign: 'center', pt: 4 }}>
-          <Typography variant="h3" component="h1" fontWeight="bold" gutterBottom>
+      <Box sx={{ background: theme.palette.background.default, minHeight: '100vh', p: 2 }}>
+        <Box sx={{ mb: 4, pt: 4, textAlign: 'center' }}>
+          <Typography component="h1" fontWeight="bold" gutterBottom variant="h3">
             To Do List
           </Typography>
-          <Typography variant="subtitle1" color="text.secondary">
+          <Typography color="text.secondary" variant="subtitle1">
             You have {tasks.filter(t => !t.isDone).length} tasks remaining.
           </Typography>
         </Box>
@@ -30,21 +27,20 @@ function App() {
         <TaskGrid />
       </Box>
       <ToastContainer
-        position="bottom-right"
         autoClose={1000}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnHover
-        theme="dark"
-        limit={3}
         closeButton={false}
-        transition={Zoom}
+        closeOnClick
+        limit={3}
+        newestOnTop={false}
         pauseOnFocusLoss={false}
+        pauseOnHover
+        position="bottom-right"
+        rtl={false}
+        theme="dark"
+        transition={Zoom}
       />
     </ThemeProvider>
   )
 }
 
 export default App
-

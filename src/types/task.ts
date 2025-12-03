@@ -1,21 +1,16 @@
 import { z } from 'zod'
 
-export const subjects = [
-    "Errand",
-    "Work",
-    "Home",
-    "Other"
-]
+export const subjects = ['Errand', 'Work', 'Home', 'Other']
 
 export const TaskSchema = z.object({
-     id: z.uuid(),
-    name: z.string().min(1, "Task name is required").max(50),
-    subject: z.enum(subjects),
-    priority: z.number().min(1, "Priority must be 1-10").max(10),
-    date: z.date(),
-    isDone: z.boolean().default(false).optional(),
-});
+  date: z.date(),
+  id: z.uuid(),
+  isDone: z.boolean().default(false).optional(),
+  name: z.string().min(1, 'Task name is required').max(50),
+  priority: z.number().min(1, 'Priority must be 1-10').max(10),
+  subject: z.enum(subjects),
+})
 
-export const numbers = Array.from({ length: 10 }, (_, i) => i + 1);
+export const numbers = Array.from({ length: 10 }, (_, i) => i + 1)
 
-export type Task = z.infer<typeof TaskSchema>;
+export type Task = z.infer<typeof TaskSchema>
