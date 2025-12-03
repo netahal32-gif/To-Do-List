@@ -2,12 +2,11 @@ import Button from "@mui/material/Button";
 import AddTaskIcon from '@mui/icons-material/AddTask';
 import React from "react";
 
-
 const customButtonStyles = {
     alignItems: "center",
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#1ee43f65',
     border: '1px solid rgba(0, 0, 0, 0.1)',
-    borderRadius: '.25rem',
+    borderRadius: '1.8rem',
     boxShadow: 'rgba(0, 0, 0, 0.02) 0 1px 3px 0',
     boxSizing: 'border-box',
     color: 'rgba(0, 0, 0, 0.85)',
