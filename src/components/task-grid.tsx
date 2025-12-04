@@ -4,9 +4,20 @@ import { useAtom } from 'jotai'
 import type React from 'react'
 import { tasksAtom } from '../atoms/task-atoms'
 import TaskCard from './task-card'
+import { toast } from 'react-toastify'
 
 export const TaskGrid: React.FC = () => {
-  const [tasks, _] = useAtom(tasksAtom)
+  const [tasks, setTasks] = useAtom(tasksAtom)
+
+  const handleDeleteTask = (id: string) => {
+    const updatedTasks = tasks.filter(task => task.id !== id);
+    toast.info('Task Deleted Successfully')
+    setTasks(updatedTasks);
+  };
+
+  const handleEditTask = (id: string) => {
+
+  }
 
   return (
     <Container
@@ -42,12 +53,12 @@ export const TaskGrid: React.FC = () => {
             >
               <TaskCard
                 deleteTask={(id: string): void => {
+                  handleDeleteTask(id)
+                }}
+                editTask={(id: string): void => {
                   throw new Error('Function not implemented.')
                 }}
                 doneTask={(id: string): void => {
-                  throw new Error('Function not implemented.')
-                }}
-                editTask={(id: string): void => {
                   throw new Error('Function not implemented.')
                 }}
                 task={task}

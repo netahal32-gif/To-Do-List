@@ -1,6 +1,6 @@
 import { ThemeProvider } from '@mui/material/styles'
 import { ToastContainer, Zoom } from 'react-toastify'
-import { TaskInputCard } from './components/input-card'
+import { TaskInputCard } from './components/input-form/input-card'
 import customTheme from './components/theme'
 import 'react-toastify/dist/ReactToastify.css'
 import { Box, CssBaseline, Typography } from '@mui/material'
@@ -20,7 +20,7 @@ function App() {
             To Do List
           </Typography>
           <Typography color="text.secondary" variant="subtitle1">
-            You have {tasks.filter(t => !t.isDone).length} tasks remaining.
+            There are {tasks.filter(t => !t.isDone).length} tasks remaining.
           </Typography>
         </Box>
         <TaskInputCard />
