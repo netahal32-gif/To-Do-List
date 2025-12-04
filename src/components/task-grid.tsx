@@ -5,6 +5,7 @@ import type React from 'react'
 import { tasksAtom } from '../atoms/task-atoms'
 import TaskCard from './task-card'
 import { toast } from 'react-toastify'
+import type { Task } from '../types/task'
 
 export const TaskGrid: React.FC = () => {
   const [tasks, setTasks] = useAtom(tasksAtom)
@@ -16,7 +17,38 @@ export const TaskGrid: React.FC = () => {
   };
 
   const handleEditTask = (id: string) => {
+    setTasks(
+      tasks.map((task) =>
+        task.id === id ? { ...task, isEditMode: !task.isEditMode } : task
+      )
+    )
+    const newStatus = tasks.find(task => task.id === id)?.isEditMode
+      ? "Has Been Edited"
+      : "is in Edit Mode";
+    toast.info(`Task ${newStatus}`)
+  }
+  
+  const handleUpdateTask = (id: string, updatedFields: Omit<Task, 'id' | 'isDone'>) => {///////////COME BACK TO THIS
+    setTasks(
+      tasks.map(task =>
+        task.id === id
+          ? { ...task, ...updatedFields, isEditMode: false }
+          : task
+      )
+    );
+    toast.success('Task updated successfully!');
+  }
 
+  const handleStatusChange = (id: string) => {
+    setTasks(
+      tasks.map((task) =>
+        task.id === id ? { ...task, isDone: !task.isDone } : task,
+      )
+    )
+    const newStatus = tasks.find(task => task.id === id)?.isDone
+      ? "Unfinished"
+      : "Finished";
+    toast.info(`Task is ${newStatus}`)
   }
 
   return (
@@ -56,10 +88,10 @@ export const TaskGrid: React.FC = () => {
                   handleDeleteTask(id)
                 }}
                 editTask={(id: string): void => {
-                  throw new Error('Function not implemented.')
+                  handleEditTask(id)
                 }}
                 doneTask={(id: string): void => {
-                  throw new Error('Function not implemented.')
+                  handleStatusChange(id)
                 }}
                 task={task}
               ></TaskCard>

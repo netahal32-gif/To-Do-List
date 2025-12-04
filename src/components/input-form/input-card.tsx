@@ -9,7 +9,7 @@ import { ZodError } from 'zod'
 import { tasksAtom } from '../../atoms/task-atoms'
 import {  type Task, taskSchema } from '../../types/task'
 import AddTaskButton from './add-button'
-import TaskInputFields from './task-input-fields'
+import {TaskInputFields} from './task-input-fields'
 
 export const TaskInputCard = () => {
   const [_, setTasks] = useAtom(tasksAtom)

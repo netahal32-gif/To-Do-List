@@ -4,7 +4,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"
 import { DatePicker } from "@mui/x-date-pickers/DatePicker"
 import { numbers, subjects, type UseStateTask } from "../../types/task"
 
-export default function TaskInputFields({
+export const TaskInputFields = ({
     name,
     setName,
     priority,
@@ -13,7 +13,7 @@ export default function TaskInputFields({
     setSubject,
     date,
     setDate,
-}: UseStateTask) {
+}: UseStateTask) => {
     return (
         <>
             <Stack alignItems="flex-end" direction={{ sm: 'row', xs: 'column' }} spacing={2} sx={{ mb: 2 }}>
@@ -32,7 +32,7 @@ export default function TaskInputFields({
                         id="select-priority"
                         label="Priority"
                         labelId="priority-label"
-                        onChange={e => setPriority(e.target.value)}
+                        onChange={e => setPriority(Number(e.target.value))}
                         value={priority}
                     >
                         {numbers.map(number => (
