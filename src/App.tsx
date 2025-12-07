@@ -1,13 +1,13 @@
 import { ThemeProvider } from '@mui/material/styles'
 import { ToastContainer, Zoom } from 'react-toastify'
 import { TaskInputCard } from './components/input-form/input-card'
-import customTheme from './components/theme'
+import customTheme from './style/theme'
 import 'react-toastify/dist/ReactToastify.css'
 import { Box, CssBaseline, Typography } from '@mui/material'
 import { useAtom } from 'jotai'
 import { tasksAtom } from './atoms/task-atoms'
 import { TaskGrid } from './components/task-grid'
-import theme from './components/theme'
+import theme from './style/theme'
 
 function App() {
   const [tasks, _] = useAtom(tasksAtom)

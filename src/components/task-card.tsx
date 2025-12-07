@@ -9,10 +9,11 @@ import { green, red } from '@mui/material/colors'
 import dayjs, { type Dayjs } from 'dayjs'
 import type React from 'react'
 import { useEffect, useState } from 'react'
-import { errorMessages } from '../error-handler'
+import { errorMessages } from '../utils/error-handler'
+import { customButtonStyles } from '../style/button'
 import { type Task, taskSchema } from '../types/task'
-import { customButtonStyles } from './input-form/add-button'
 import { TaskInputFields } from './input-form/task-input-fields'
+import { cardStyle } from '../style/card'
 
 const formatDate = (date: Date) => {
   return date.toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })
@@ -68,30 +69,8 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, doneTask, deleteTask, editTas
     editTask(task.id)
   }
 
-  const getPriorityColor = (priority: Task['priority']) => {
-    if (priority >= 1 && priority <= 3) return '#d32f2f'
-    if (priority >= 4 && priority <= 7) return '#fbc02d'
-    if (priority >= 8 && priority <= 10) return '#4caf50'
-    return 'text.secondary'
-  }
-
-  const cardStyle = {
-    '&:hover': {
-      boxShadow: '0 15px 20px rgba(0, 0, 0, 0.15)',
-      transform: 'translateY(-2px)',
-    },
-    backgroundColor: task.isDone ? '#1ee43f4f' : 'rgba(255, 255, 255, 0.5)',
-    borderLeft: `5px solid ${getPriorityColor(task.priority)}`,
-    borderRadius: 3,
-    boxShadow: task.isDone ? '0 4px 6px rgba(0, 0, 0, 0.1)' : '0 10px 15px rgba(0, 0, 0, 0.1)',
-    display: 'flex',
-    flexDirection: 'column',
-    height: '100%',
-    transition: 'all 0.3s ease-in-out',
-  }
-
   return (
-    <Card sx={cardStyle}>
+    <Card sx={cardStyle(task)}>
       <CardContent
         sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1, justifyContent: 'space-between', p: 3 }}
       >
