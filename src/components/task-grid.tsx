@@ -3,9 +3,9 @@ import Grid from '@mui/material/Grid'
 import { useAtom } from 'jotai'
 import type React from 'react'
 import { toast } from 'react-toastify'
-import { tasksAtom } from '../atoms/task-atoms'
 import type { Task } from '../types/task'
 import TaskCard from './task-card'
+import { tasksAtom } from '../atoms/task-atoms'
 
 export const TaskGrid: React.FC = () => {
   const [tasks, setTasks] = useAtom(tasksAtom)
