@@ -2,7 +2,7 @@ import AddTaskIcon from '@mui/icons-material/AddTask'
 import Button from '@mui/material/Button'
 import type React from 'react'
 
-const customButtonStyles = {
+export const customButtonStyles = (isGreen: boolean) => ({
   '&:active': {
     backgroundColor: '#F0F0F1',
     borderColor: 'rgba(0, 0, 0, 0.15)',
@@ -18,7 +18,7 @@ const customButtonStyles = {
     transform: 'translateY(-1px)',
   },
   alignItems: 'center',
-  backgroundColor: '#1ee43f65',
+  backgroundColor: isGreen ? '#1ee43f65' : '#e41e1e65',
   border: '1px solid rgba(0, 0, 0, 0.1)',
   borderRadius: '1.8rem',
   boxShadow: 'rgba(0, 0, 0, 0.02) 0 1px 3px 0',
@@ -39,11 +39,11 @@ const customButtonStyles = {
   verticalAlign: 'baseline',
   WebkitUserSelect: 'none',
   width: 'auto',
-}
+})
 
 const AddTaskButton: React.FC = () => {
   return (
-    <Button startIcon={<AddTaskIcon />} sx={customButtonStyles} type="submit" variant="text">
+    <Button startIcon={<AddTaskIcon />} sx={customButtonStyles(true)} type="submit" variant="text">
       Add Task
     </Button>
   )

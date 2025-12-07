@@ -2,52 +2,34 @@ import { Container, Paper, Typography } from '@mui/material'
 import Grid from '@mui/material/Grid'
 import { useAtom } from 'jotai'
 import type React from 'react'
-import { tasksAtom } from '../atoms/task-atoms'
-import TaskCard from './task-card'
 import { toast } from 'react-toastify'
+import { tasksAtom } from '../atoms/task-atoms'
 import type { Task } from '../types/task'
+import TaskCard from './task-card'
 
 export const TaskGrid: React.FC = () => {
   const [tasks, setTasks] = useAtom(tasksAtom)
 
   const handleDeleteTask = (id: string) => {
-    const updatedTasks = tasks.filter(task => task.id !== id);
+    const updatedTasks = tasks.filter(task => task.id !== id)
     toast.info('Task Deleted Successfully')
-    setTasks(updatedTasks);
-  };
+    setTasks(updatedTasks)
+  }
 
   const handleEditTask = (id: string) => {
-    setTasks(
-      tasks.map((task) =>
-        task.id === id ? { ...task, isEditMode: !task.isEditMode } : task
-      )
-    )
-    const newStatus = tasks.find(task => task.id === id)?.isEditMode
-      ? "Has Been Edited"
-      : "is in Edit Mode";
-    toast.info(`Task ${newStatus}`)
+    setTasks(tasks.map(task => (task.id === id ? { ...task, isEditMode: !task.isEditMode } : task)))
+    const newStatus = tasks.find(task => task.id === id)?.isEditMode ? 'Exited' : 'Entered'
+    toast.info(` ${newStatus} Edit Mode`)
   }
-  
-  const handleUpdateTask = (id: string, updatedFields: Omit<Task, 'id' | 'isDone'>) => {///////////COME BACK TO THIS
-    setTasks(
-      tasks.map(task =>
-        task.id === id
-          ? { ...task, ...updatedFields, isEditMode: false }
-          : task
-      )
-    );
-    toast.success('Task updated successfully!');
+
+  const handleUpdateTask = (id: string, updatedFields: Omit<Task, 'id' | 'isDone'>) => {
+    setTasks(tasks.map(task => (task.id === id ? { ...task, ...updatedFields, isEditMode: false } : task)))
+    toast.success('Task updated successfully!')
   }
 
   const handleStatusChange = (id: string) => {
-    setTasks(
-      tasks.map((task) =>
-        task.id === id ? { ...task, isDone: !task.isDone } : task,
-      )
-    )
-    const newStatus = tasks.find(task => task.id === id)?.isDone
-      ? "Unfinished"
-      : "Finished";
+    setTasks(tasks.map(task => (task.id === id ? { ...task, isDone: !task.isDone } : task)))
+    const newStatus = tasks.find(task => task.id === id)?.isDone ? 'Unfinished' : 'Finished'
     toast.info(`Task is ${newStatus}`)
   }
 
@@ -73,10 +55,10 @@ export const TaskGrid: React.FC = () => {
         <Grid container spacing={4} sx={{ p: { sm: 2, xs: 0 } }}>
           {tasks.map(task => (
             <Grid
+              key={String(task.id)}
               {...({
                 component: 'div' as const,
                 item: true,
-                key: String(task.id),
                 lg: 3,
                 md: 4,
                 sm: 6,
@@ -87,13 +69,16 @@ export const TaskGrid: React.FC = () => {
                 deleteTask={(id: string): void => {
                   handleDeleteTask(id)
                 }}
-                editTask={(id: string): void => {
-                  handleEditTask(id)
-                }}
                 doneTask={(id: string): void => {
                   handleStatusChange(id)
                 }}
+                editTask={(id: string): void => {
+                  handleEditTask(id)
+                }}
                 task={task}
+                updateTask={(id: string, updatedFields: Omit<Task, 'id' | 'isDone'>): void => {
+                  handleUpdateTask(id, updatedFields)
+                }}
               ></TaskCard>
             </Grid>
           ))}

@@ -5,11 +5,12 @@ import type React from 'react'
 import { useState } from 'react'
 import { toast } from 'react-toastify'
 import { v4 as uuidv4 } from 'uuid'
-import { ZodError } from 'zod'
 import { tasksAtom } from '../../atoms/task-atoms'
-import {  type Task, taskSchema } from '../../types/task'
+import { errorMessages } from '../../error-handler'
+import { logger } from '../../logger'
+import { type Task, taskSchema } from '../../types/task'
 import AddTaskButton from './add-button'
-import {TaskInputFields} from './task-input-fields'
+import { TaskInputFields } from './task-input-fields'
 
 export const TaskInputCard = () => {
   const [_, setTasks] = useAtom(tasksAtom)
@@ -30,20 +31,10 @@ export const TaskInputCard = () => {
     try {
       const newTask: Task = taskSchema.parse(taskDraft)
       setTasks(prev => [...prev, newTask])
-      console.log('Task added successfully:', newTask)
+      logger.info(`Task added successfully:, ${newTask}`)
       toast.success('Task added Successfully!')
     } catch (err) {
-      ///////make a better error logger
-      if (err instanceof ZodError) {
-        const errorMessages = err.issues
-          .map((err: { path: any[]; message: any }) => `${err.path.join('.')}: ${err.message}`)
-          .join(', ')
-        toast.error(`Validation Failed: ${errorMessages}`)
-        console.error('Zod Validation Error:', err)
-      } else {
-        toast.error('An unexpected error occurred during task submission.')
-        console.error('Unexpected Error:', err)
-      }
+      errorMessages(err as Error)
     }
   }
 
@@ -64,14 +55,14 @@ export const TaskInputCard = () => {
       </Typography>
       <Box component="form" onSubmit={handleSubmit}>
         <TaskInputFields
-          name={name}
-          setName={setName}
-          priority={priority}
-          setPriority={setPriority}
-          subject={subject}
-          setSubject={setSubject}
           date={date}
+          name={name}
+          priority={priority}
           setDate={setDate}
+          setName={setName}
+          setPriority={setPriority}
+          setSubject={setSubject}
+          subject={subject}
         />
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
           <AddTaskButton />
