@@ -1,13 +1,12 @@
 import { ThemeProvider } from '@mui/material/styles'
-import { ToastContainer, Zoom } from 'react-toastify'
 import { TaskInputCard } from './components/input-form/input-card'
 import customTheme from './style/theme'
-import 'react-toastify/dist/ReactToastify.css'
 import { Box, CssBaseline, Typography } from '@mui/material'
 import { useAtom } from 'jotai'
 import { tasksAtom } from './atoms/task-atoms'
-import { TaskGrid } from './components/task-grid'
+import { TaskGrid } from './components/task-list/task-grid'
 import theme from './style/theme'
+import { CustomToastContainer } from './components/toast-container'
 
 function App() {
   const [tasks, _] = useAtom(tasksAtom)
@@ -26,19 +25,7 @@ function App() {
         <TaskInputCard />
         <TaskGrid />
       </Box>
-      <ToastContainer
-        autoClose={1000}
-        closeButton={false}
-        closeOnClick
-        limit={3}
-        newestOnTop={false}
-        pauseOnFocusLoss={false}
-        pauseOnHover
-        position="bottom-right"
-        rtl={false}
-        theme="dark"
-        transition={Zoom}
-      />
+      <CustomToastContainer/>
     </ThemeProvider>
   )
 }

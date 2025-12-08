@@ -21,5 +21,4 @@ export const cardStyle = (task: Task) => {
     height: '100%',
     transition: 'all 0.3s ease-in-out',
   }
-
 }

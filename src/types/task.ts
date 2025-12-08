@@ -2,17 +2,18 @@ import dayjs, { type Dayjs } from 'dayjs'
 import { z } from 'zod'
 
 export const subjects = ['Errand', 'Work', 'Home', 'Other']
+export const numbers = Array.from({ length: 10 }, (_, i) => i + 1)
 
 const DayjsConstructor = dayjs().constructor as typeof Dayjs
 
 export const taskSchema = z.object({
-  date: z.date(),
   id: z.uuid(),
-  isDone: z.boolean().default(false).optional(),
-  isEditMode: z.boolean().default(false).optional(),
+  date: z.date(),
   name: z.string().min(1, 'Task name is required').max(50),
   priority: z.number().min(1, 'Priority must be 1-10').max(10),
   subject: z.enum(subjects),
+  isEditMode: z.boolean().default(false).optional(),
+  isDone: z.boolean().default(false).optional(),
 })
 
 export const setTaskSchema = z.object({
@@ -34,13 +35,14 @@ export const setTaskSchema = z.object({
   }),
 })
 
-export const useStateTaskSchema = taskSchema
+export const formTaskSchema = taskSchema
   .omit({ id: true })
-  .extend(setTaskSchema.shape)
-  .extend({ date: z.instanceof(DayjsConstructor).nullable() })
+  .extend({
+    date: z.instanceof(DayjsConstructor).nullable(),
+    ...setTaskSchema.shape
+  })
 
-export const numbers = Array.from({ length: 10 }, (_, i) => i + 1)
 
 export type Task = z.infer<typeof taskSchema>
 
-export type UseStateTask = z.infer<typeof useStateTaskSchema>
+export type FormTask = z.infer<typeof formTaskSchema>

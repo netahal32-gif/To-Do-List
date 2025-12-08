@@ -2,7 +2,7 @@ import { FormControl, InputLabel, MenuItem, Select, Stack, TextField } from '@mu
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
-import { numbers, subjects, type UseStateTask } from '../../types/task'
+import { numbers, subjects, type FormTask } from '../../types/task'
 
 export const TaskInputFields = ({
   name,
@@ -13,7 +13,7 @@ export const TaskInputFields = ({
   setSubject,
   date,
   setDate,
-}: UseStateTask) => {
+}: FormTask) => {
   return (
     <>
       <Stack alignItems="flex-end" direction={{ sm: 'row', xs: 'column' }} spacing={2} sx={{ mb: 2 }}>

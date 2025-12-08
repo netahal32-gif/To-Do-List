@@ -9,11 +9,11 @@ import { green, red } from '@mui/material/colors'
 import dayjs, { type Dayjs } from 'dayjs'
 import type React from 'react'
 import { useEffect, useState } from 'react'
-import { errorMessages } from '../utils/error-handler'
-import { customButtonStyles } from '../style/button'
-import { type Task, taskSchema } from '../types/task'
-import { TaskInputFields } from './input-form/task-input-fields'
-import { cardStyle } from '../style/card'
+import { customButtonStyles } from '../../style/button'
+import { cardStyle } from '../../style/card'
+import { type Task, taskSchema } from '../../types/task'
+import { errorMessages } from '../../utils/error-handler'
+import { TaskInputFields } from '../input-form/task-input-fields'
 
 const formatDate = (date: Date) => {
   return date.toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })

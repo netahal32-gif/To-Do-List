@@ -5,13 +5,12 @@ import type React from 'react'
 import { useState } from 'react'
 import { toast } from 'react-toastify'
 import { v4 as uuidv4 } from 'uuid'
+import { tasksAtom } from '../../atoms/task-atoms'
+import { type Task, taskSchema } from '../../types/task'
 import { errorMessages } from '../../utils/error-handler'
 import { logger } from '../../utils/logger'
-import { type Task, taskSchema } from '../../types/task'
 import AddTaskButton from './add-button'
 import { TaskInputFields } from './task-input-fields'
-import { tasksAtom } from '../../atoms/task-atoms'
-
 
 export const TaskInputCard = () => {
   const [_, setTasks] = useAtom(tasksAtom)
