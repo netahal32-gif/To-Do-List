@@ -1,14 +1,15 @@
 import ClearIcon from '@mui/icons-material/Clear'
 import SearchIcon from '@mui/icons-material/Search'
 import { IconButton, InputAdornment, TextField } from '@mui/material'
-import { useAtom } from 'jotai'
+import { useSetAtom } from 'jotai'
 import debounce from 'lodash.debounce'
 import { useEffect, useRef, useState } from 'react'
+
 import { searchQueryAtom } from '../../atoms/task-atoms'
 
 export const Search = () => {
-  const [_, setSearchQuery] = useAtom(searchQueryAtom)
-  const [text, setText] = useState('')
+  const setSearchQuery = useSetAtom(searchQueryAtom)
+  const [text, setText] = useState<string>('')
 
   const debouncedSetQuery = useRef(
     debounce((value: string) => {

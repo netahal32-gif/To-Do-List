@@ -1,19 +1,20 @@
-import { ThemeProvider } from '@mui/material/styles'
-import { TaskInputCard } from './components/input-form/input-card'
-import customTheme from './style/theme'
 import { Box, CssBaseline, Typography } from '@mui/material'
-import { useAtom } from 'jotai'
+import { ThemeProvider } from '@mui/material/styles'
+import { useAtomValue } from 'jotai'
+
 import { tasksAtom } from './atoms/task-atoms'
+import { TaskInputCard } from './components/input-form/input-card'
 import { TaskGrid } from './components/task-list/task-grid'
-import theme from './style/theme'
-import { CustomToastContainer } from './components/toast-container'
+
+import customTheme from './style/theme'
+import { ToastContainer, Zoom } from 'react-toastify'
 
 function App() {
-  const [tasks, _] = useAtom(tasksAtom)
+  const tasks = useAtomValue(tasksAtom)
   return (
     <ThemeProvider theme={customTheme}>
       <CssBaseline />
-      <Box sx={{ background: theme.palette.background.default, minHeight: '100vh', p: 2 }}>
+      <Box sx={{ background: customTheme.palette.background.default, minHeight: '100vh', p: 2 }}>
         <Box sx={{ mb: 4, pt: 4, textAlign: 'center' }}>
           <Typography component="h1" fontWeight="bold" gutterBottom variant="h3">
             To Do List
@@ -25,7 +26,18 @@ function App() {
         <TaskInputCard />
         <TaskGrid />
       </Box>
-      <CustomToastContainer/>
+      <ToastContainer
+        autoClose={1000}
+        closeButton={false}
+        closeOnClick
+        limit={3}
+        newestOnTop={false}
+        pauseOnFocusLoss={false}
+        pauseOnHover
+        position="bottom-right"
+        rtl={false}
+        theme="dark"
+        transition={Zoom} />
     </ThemeProvider>
   )
 }

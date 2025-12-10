@@ -6,12 +6,13 @@ import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked'
 import SaveIcon from '@mui/icons-material/Save'
 import { Box, Button, Card, CardContent, IconButton, Stack, Typography } from '@mui/material'
 import { green, red } from '@mui/material/colors'
-import dayjs, { type Dayjs } from 'dayjs'
-import type React from 'react'
-import { useEffect, useState } from 'react'
+import dayjs from 'dayjs'
+import React, { useEffect, useState } from 'react'
+
 import { customButtonStyles } from '../../style/button'
 import { cardStyle } from '../../style/card'
-import { type Task, taskSchema } from '../../types/task'
+
+import { type NewTask, newTaskSchema, type Task } from '../../types/task'
 import { errorMessages } from '../../utils/error-handler'
 import { TaskInputFields } from '../input-form/task-input-fields'
 
@@ -28,30 +29,24 @@ interface TaskCardProps {
 }
 
 const TaskCard: React.FC<TaskCardProps> = ({ task, doneTask, deleteTask, editTask, updateTask }) => {
-  const [name, setName] = useState<string>(task.name)
-  const [subject, setSubject] = useState<string>(task.subject)
-  const [priority, setPriority] = useState<number>(task.priority)
-  const [date, setDate] = useState<Dayjs | null>(dayjs(task.date))
+  const [taskDraft, setTaskDraft] = useState<NewTask>({
+    ...task,
+    date: dayjs(task.date),
+  });
 
   useEffect(() => {
-    setName(task.name)
-    setSubject(task.subject)
-    setPriority(task.priority)
-    setDate(dayjs(task.date))
+    setTaskDraft({
+      ...taskDraft,
+      date: dayjs(task.date),
+    })
   }, [task.name, task.subject, task.priority, task.date])
 
   const handleSave = () => {
-    const taskDraft = {
-      ...task,
-      date: date!.toDate(),
-    }
     try {
-      taskSchema.parse(taskDraft)
+      newTaskSchema.parse(taskDraft)
       const updatedFields = {
-        date: date!.toDate(),
-        name,
-        priority,
-        subject,
+        ...taskDraft,
+        date: taskDraft.date!.toDate(),
       }
 
       updateTask(task.id, updatedFields)
@@ -61,10 +56,10 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, doneTask, deleteTask, editTas
   }
 
   const handleCancel = () => {
-    setName(task.name)
-    setSubject(task.subject)
-    setPriority(task.priority)
-    setDate(dayjs(task.date))
+    setTaskDraft({
+      ...taskDraft,
+      date: dayjs(task.date),
+    });
 
     editTask(task.id)
   }
@@ -107,14 +102,8 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, doneTask, deleteTask, editTas
         ) : (
           <>
             <TaskInputFields
-              date={date}
-              name={name}
-              priority={priority}
-              setDate={setDate}
-              setName={setName}
-              setPriority={setPriority}
-              setSubject={setSubject}
-              subject={subject}
+              task={taskDraft}
+              setTask={setTaskDraft}
             />
             <Box sx={{ display: 'flex', gap: 1, justifyContent: 'flex-end', mt: 2 }}>
               <Button

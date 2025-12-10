@@ -6,43 +6,25 @@ export const numbers = Array.from({ length: 10 }, (_, i) => i + 1)
 
 const DayjsConstructor = dayjs().constructor as typeof Dayjs
 
-export const taskSchema = z.object({
-  id: z.uuid(),
-  date: z.date(),
+const baseTaskSchema = z.object({
   name: z.string().min(1, 'Task name is required').max(50),
   priority: z.number().min(1, 'Priority must be 1-10').max(10),
   subject: z.enum(subjects),
-  isEditMode: z.boolean().default(false).optional(),
+})
+
+const dayjsDateSchema = z.object({
+  date: z.instanceof(DayjsConstructor).nullable()
+})
+
+export const taskSchema = baseTaskSchema.extend({
+  date: z.date(),
+  id: z.uuid(),
   isDone: z.boolean().default(false).optional(),
+  isEditMode: z.boolean().default(false).optional(),
 })
 
-export const setTaskSchema = z.object({
-  setDate: z.function({
-    input: [z.instanceof(DayjsConstructor).nullable()],
-    output: z.void(),
-  }),
-  setName: z.function({
-    input: [z.string()],
-    output: z.void(),
-  }),
-  setPriority: z.function({
-    input: [z.number()],
-    output: z.void(),
-  }),
-  setSubject: z.function({
-    input: [z.enum(subjects)],
-    output: z.void(),
-  }),
-})
-
-export const formTaskSchema = taskSchema
-  .omit({ id: true })
-  .extend({
-    date: z.instanceof(DayjsConstructor).nullable(),
-    ...setTaskSchema.shape
-  })
-
+export const newTaskSchema = baseTaskSchema.extend(dayjsDateSchema.shape)
 
 export type Task = z.infer<typeof taskSchema>
 
-export type FormTask = z.infer<typeof formTaskSchema>
+export type NewTask =z.infer<typeof newTaskSchema>

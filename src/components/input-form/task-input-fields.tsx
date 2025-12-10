@@ -2,27 +2,44 @@ import { FormControl, InputLabel, MenuItem, Select, Stack, TextField } from '@mu
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
-import { numbers, subjects, type FormTask } from '../../types/task'
+import type { Dayjs } from 'dayjs'
 
-export const TaskInputFields = ({
-  name,
-  setName,
-  priority,
-  setPriority,
-  subject,
-  setSubject,
-  date,
-  setDate,
-}: FormTask) => {
+import { numbers, subjects, type NewTask } from '../../types/task'
+import type React from 'react'
+
+interface TaskInputs {
+  task: NewTask
+  setTask: React.Dispatch<React.SetStateAction<NewTask>>
+}
+
+export const TaskInputFields: React.FC<TaskInputs> = ({ task, setTask }) => {
+
+  const updateNewTask = (name: string, value: any) => {
+    setTask(prev => ({
+      ...prev,
+      [name as keyof typeof prev]: value,
+    }));
+  }
+
+  const handleDateChange = (newValue: Dayjs | null) => {
+    setTask(prev => ({
+      ...prev,
+      date: newValue,
+    }));
+  };
+
   return (
     <>
       <Stack alignItems="flex-end" direction={{ sm: 'row', xs: 'column' }} spacing={2} sx={{ mb: 2 }}>
         <TextField
           label="Name"
-          onChange={e => setName(e.target.value)}
+          name="name"
+          onChange={(e) => {
+            updateNewTask(e.target.name, e.target.value)
+          }}
           required
           sx={{ flex: 1 }}
-          value={name}
+          value={task.name}
           variant="outlined"
         />
 
@@ -31,9 +48,12 @@ export const TaskInputFields = ({
           <Select
             id="select-priority"
             label="Priority"
+            name="priority"
             labelId="priority-label"
-            onChange={e => setPriority(Number(e.target.value))}
-            value={priority}
+            onChange={(e) => {
+              updateNewTask(e.target.name, e.target.value)
+            }}
+            value={task.priority}
           >
             {numbers.map(number => (
               <MenuItem key={number} value={number}>
@@ -50,9 +70,12 @@ export const TaskInputFields = ({
           <Select
             id="select-subject"
             label="Subject"
+            name="subject"
             labelId="subject-label"
-            onChange={e => setSubject(e.target.value)}
-            value={subject}
+            onChange={(e) => {
+              updateNewTask(e.target.name, e.target.value)
+            }}
+            value={task.subject}
           >
             {subjects.map(s => (
               <MenuItem key={s} value={s}>
@@ -66,14 +89,15 @@ export const TaskInputFields = ({
           <DatePicker
             format="DD/MM/YYYY"
             label="Due Date"
-            onChange={newValue => setDate(newValue)}
+            name="date"
+            onChange={handleDateChange}
             slotProps={{
               textField: {
                 required: true,
               },
             }}
             sx={{ flex: 1, width: '100%' }}
-            value={date}
+            value={task.date}
           />
         </LocalizationProvider>
       </Stack>

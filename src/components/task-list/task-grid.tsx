@@ -1,8 +1,9 @@
 import { Container, Paper, Typography } from '@mui/material'
 import Grid from '@mui/material/Grid'
-import { useAtom } from 'jotai'
+import { useAtom, useAtomValue } from 'jotai'
 import type React from 'react'
 import { toast } from 'react-toastify'
+
 import { filteredTasksAtom, tasksAtom } from '../../atoms/task-atoms'
 import type { Task } from '../../types/task'
 import { Search } from './search'
@@ -10,12 +11,11 @@ import TaskCard from './task-card'
 
 export const TaskGrid: React.FC = () => {
   const [tasks, setTasks] = useAtom(tasksAtom)
-  const [filteredTasks] = useAtom(filteredTasksAtom)
+  const filteredTasks = useAtomValue(filteredTasksAtom)
 
   const handleDeleteTask = (id: string) => {
-    const updatedTasks = tasks.filter(task => task.id !== id)
     toast.info('Task Deleted Successfully')
-    setTasks(updatedTasks)
+    setTasks(tasks.filter(task => task.id !== id))
   }
 
   const handleEditTask = (id: string) => {
@@ -57,9 +57,7 @@ export const TaskGrid: React.FC = () => {
         <Grid container spacing={4} sx={{ p: { sm: 2, xs: 0 } }}>
           <Search />
           {filteredTasks.map(task => (
-            <Grid
-              key={String(task.id)}
-            >
+            <Grid key={String(task.id)}>
               <TaskCard
                 deleteTask={(id: string): void => {
                   handleDeleteTask(id)
