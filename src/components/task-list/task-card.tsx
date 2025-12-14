@@ -16,8 +16,8 @@ import { type NewTask, newTaskSchema, type Task } from '../../types/task'
 import { errorMessages } from '../../utils/error-handler'
 import { TaskInputFields } from '../input-form/task-input-fields'
 
-const formatDate = (date: Date) => {
-  return date.toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })
+const formatDate = (date: Date | string) => {
+  return typeof date !== 'string' ? date.toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' }) : date
 }
 
 interface TaskCardProps {

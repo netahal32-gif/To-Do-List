@@ -15,22 +15,24 @@ export const TaskGrid: React.FC = () => {
 
   const handleDeleteTask = (id: string) => {
     toast.info('Task Deleted Successfully')
-    setTasks(tasks.filter(task => task.id !== id))
+    setTasks(prevTasks => prevTasks.filter(task => task.id !== id))
   }
 
   const handleEditTask = (id: string) => {
-    setTasks(tasks.map(task => (task.id === id ? { ...task, isEditMode: !task.isEditMode } : task)))
+    setTasks(prevTasks => prevTasks.map(task =>
+      task.id === id ? { ...task, isEditMode: !task.isEditMode } : task
+    ))
     const newStatus = tasks.find(task => task.id === id)?.isEditMode ? 'Exited' : 'Entered'
     toast.info(` ${newStatus} Edit Mode`)
   }
 
   const handleUpdateTask = (id: string, updatedFields: Omit<Task, 'id' | 'isDone'>) => {
-    setTasks(tasks.map(task => (task.id === id ? { ...task, ...updatedFields, isEditMode: false } : task)))
+    setTasks(prevTasks => prevTasks.map(task => (task.id === id ? { ...task, ...updatedFields, isEditMode: false } : task)))
     toast.success('Task updated successfully!')
   }
 
   const handleStatusChange = (id: string) => {
-    setTasks(tasks.map(task => (task.id === id ? { ...task, isDone: !task.isDone } : task)))
+    setTasks(prevTasks => prevTasks.map(task => (task.id === id ? { ...task, isDone: !task.isDone } : task)))
     const newStatus = tasks.find(task => task.id === id)?.isDone ? 'Unfinished' : 'Finished'
     toast.info(`Task is ${newStatus}`)
   }

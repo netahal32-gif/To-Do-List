@@ -2,25 +2,18 @@ import ClearIcon from '@mui/icons-material/Clear'
 import SearchIcon from '@mui/icons-material/Search'
 import { IconButton, InputAdornment, TextField } from '@mui/material'
 import { useSetAtom } from 'jotai'
-import debounce from 'lodash.debounce'
-import { useEffect, useRef, useState } from 'react'
+import { useDebounce } from 'use-debounce';
+import { useEffect, useState } from 'react'
 
 import { searchQueryAtom } from '../../atoms/task-atoms'
 
 export const Search = () => {
   const setSearchQuery = useSetAtom(searchQueryAtom)
   const [text, setText] = useState<string>('')
-
-  const debouncedSetQuery = useRef(
-    debounce((value: string) => {
-      setSearchQuery(value)
-    }, 300),
-  ).current
+  const [debouncedText] = useDebounce(text, 300);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value
-    setText(value)
-    debouncedSetQuery(value)
+    setText(event.target.value)
   }
 
   const cancelSearch = () => {
@@ -29,10 +22,8 @@ export const Search = () => {
   }
 
   useEffect(() => {
-    return () => {
-      debouncedSetQuery.cancel()
-    }
-  }, [debouncedSetQuery])
+    setSearchQuery(debouncedText)
+  }, [debouncedText])
 
   return (
     <TextField
